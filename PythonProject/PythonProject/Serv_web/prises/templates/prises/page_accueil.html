@@ -1,0 +1,128 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Contrôle des LEDs</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'prises/style.css' %}">
+</head>
+<body>
+    <h1 style="text-align:center;">Contrôle des LEDs</h1>
+
+    <div class="container">
+        {% for prise in prises %}
+            <div class="led-box">
+                <div class="led-title">LED {{ forloop.counter }}</div>
+
+                <!-- État actuel -->
+                <div class="etat">
+                    État :
+                    <span id="etat-led">
+                        {% if prise.etat %}
+                            <span class="etat-on">Allumée</span>
+                        {% else %}
+                            <span class="etat-off">Éteinte</span>
+                        {% endif %}
+                    </span>
+                </div>
+
+                <!-- Messages Django -->
+                {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li class="{{ message.tags }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+
+                <!-- Boutons ON / OFF -->
+                <div>
+                    <a href="{% url 'set_prise_state' prise.id 'on' %}">
+                        <button class="btn btn-on">Allumer</button>
+                    </a>
+                    <a href="{% url 'set_prise_state' prise.id 'off' %}">
+                        <button class="btn btn-off">Éteindre</button>
+                    </a>
+                </div>
+
+                <!-- Gestion de la plage horaire -->
+                <div class="prise-card">
+                    <form method="post" action="{% url 'set_horaire' prise.id %}" class="horaire-form">
+                        {% csrf_token %}
+                        <label>Heure d’allumage :</label>
+                        <input type="time" id="heure_on_{{ prise.id }}" name="heure_on" value="{{ prise.heure_on|default_if_none:'' }}">
+
+                        <p><label>Heure d’extinction :</label>
+                        <input type="time" id="heure_off_{{ prise.id }}" name="heure_off" value="{{ prise.heure_off|default_if_none:'' }}"></p>
+
+                        <button type="submit" class="btn btn-primary">Enregistrer la plage horaire</button>
+                    </form>
+
+                    <!-- Affichage de la plage actuelle -->
+                    {% if prise.heure_on and prise.heure_off %}
+                        <p> Prochaine plage horaire : de {{ prise.heure_on|time:'H:i' }} à {{ prise.heure_off|time:'H:i' }}</p>
+                    {% elif prise.horaire_active %}
+                        <p> Plage active mais heures non définies.</p>
+                    {% else %}
+                        <p> Aucune plage horaire active. </p>
+                    {% endif %}
+
+                    <hr>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div style="text-align:center; margin-bottom:20px;">
+    {% if prises %}
+        {% if all_on %}
+            <a href="{% url 'toggle_all_leds' %}">
+                <button class="btn btn-on">💡 Éteindre toutes les LEDs</button>
+            </a>
+        {% else %}
+            <a href="{% url 'toggle_all_leds' %}">
+                <button class="btn btn-off">💡 Allumer toutes les LEDs</button>
+            </a>
+        {% endif %}
+    {% endif %}
+</div>
+<div class="container">
+    <div class="led-box">
+    <h1>Panneau température</h1>
+<p class = "temperature">Température actuelle : <span id="temperature">{{ temperature }}</span> °C</p>
+    </div>
+</div>
+    <a href="{% url 'logout' %}"><button class="btn btn-off">Se déconnecter</button></a>
+
+<script>
+function updateTemperature() {
+    fetch('/temperature-api/')
+        .then(response => response.json())
+        .then(data => {
+            const tempElem = document.getElementById('temperature');
+            if (tempElem) {
+                tempElem.textContent = data.temperature;
+            }
+        })
+        .catch(err => console.error("Erreur fetch:", err));
+}
+
+// Mise à jour toutes les 3 secondes
+setInterval(updateTemperature, 3000);
+</script>
+
+
+    <script>
+    setInterval(() => {
+        fetch('/etat/')
+            .then(response => response.json())
+            .then(data => {
+                const etatElement = document.getElementById('etat-led');
+                if (etatElement) {
+                    etatElement.innerHTML = data.etat
+                        ? '<span class="etat-on">Allumée</span>'
+                        : '<span class="etat-off">Éteinte</span>';
+                }
+            });
+    }, 2000);
+    </script>
+</body>
+</html>

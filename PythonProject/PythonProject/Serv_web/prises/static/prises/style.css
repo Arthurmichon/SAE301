@@ -1,0 +1,86 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 40px;
+    background: #f2f2f2;
+}
+
+.container {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+}
+
+.led-box {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    width: 300px;
+    text-align: center;
+}
+
+.led-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.btn {
+    padding: 10px 20px;
+    margin: 10px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.btn-on {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.btn-off {
+    background-color: #f44336;
+    color: white;
+}
+
+.etat {
+    margin: 10px 0;
+    font-weight: bold;
+}
+
+.etat-on {
+    color: green;
+}
+
+.etat-off {
+    color: red;
+}
+
+.plage-horaire {
+    margin-top: 15px;
+    text-align: left;
+    font-size: 14px;
+    color: #444;
+}
+
+.plage-horaire h4 {
+    margin-bottom: 5px;
+}
+
+.plage-horaire ul {
+    padding-left: 20px;
+    margin: 0;
+}
+h1{
+    text-align:center;
+
+}
+.temperature{
+    text-align-center;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    width: 300px;
+    text-align: center;
+}

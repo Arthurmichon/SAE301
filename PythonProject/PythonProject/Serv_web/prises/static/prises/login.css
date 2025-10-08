@@ -1,0 +1,83 @@
+/* --- Style global --- */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: linear-gradient(135deg, #4A90E2, #50E3C2);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* --- Conteneur principal --- */
+.login-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+/* --- Boîte de connexion --- */
+.login-box {
+    background-color: white;
+    border-radius: 15px;
+    padding: 40px;
+    width: 320px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    text-align: center;
+    animation: fadeIn 0.6s ease-in-out;
+}
+
+/* --- Animation --- */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Titre --- */
+.login-box h1 {
+    margin-bottom: 25px;
+    color: #333;
+}
+
+/* --- Champs de saisie --- */
+.login-box input[type="text"],
+.login-box input[type="password"] {
+    width: 85%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.login-box input:focus {
+    border-color: #4A90E2;
+    box-shadow: 0 0 6px rgba(74, 144, 226, 0.3);
+}
+
+/* --- Bouton --- */
+.login-box button {
+    background-color: #4A90E2;
+    color: white;
+    padding: 12px 20px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    transition: background 0.2s ease-in-out;
+}
+
+.login-box button:hover {
+    background-color: #357ABD;
+}
+
+/* --- Message d’erreur --- */
+.error {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+}

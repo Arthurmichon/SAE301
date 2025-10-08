@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Connexion - Panneau de contrôle</title>
+    <link rel="stylesheet" href="{% static 'prises/login.css' %}">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <h1>Connexion</h1>
+            <form method="POST">
+                {% csrf_token %}
+                <input type="text" name="username" placeholder="Nom d'utilisateur" required>
+                <input type="password" name="password" placeholder="Mot de passe" required>
+                <button type="submit">Se connecter</button>
+
+                {% if messages %}
+                    {% for message in messages %}
+                        <p class="error">{{ message }}</p>
+                    {% endfor %}
+                {% endif %}
+            </form>
+        </div>
+    </div>
+</body>
+</html>
