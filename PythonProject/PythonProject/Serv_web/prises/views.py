@@ -6,6 +6,8 @@ from django.contrib import messages
 from .tache_horaire import is_now_in_range
 from .models import Temperature
 from .mqtt_client import envoyer_commande_toutes_les_leds
+from django.http import JsonResponse
+
 
 def login_view(request):
     if request.method == "POST":
@@ -76,11 +78,12 @@ def logout_view(request):
     return redirect("login")
 
 
-def etat_prise_api(request):
-    prise = Prise.objects.first()
-    if prise:
-        return JsonResponse({'etat': prise.etat})
-    return JsonResponse({'etat': None})
+
+def etat_leds_api(request):
+    prises = Prise.objects.all()
+    data = {f"led{p.id}": p.etat for p in prises}
+    return JsonResponse(data)
+
 
 
 
@@ -152,3 +155,4 @@ def temperature_api(request):
     temp_obj = Temperature.objects.first()
     temperature = temp_obj.value if temp_obj else "--"
     return JsonResponse({'temperature': temperature})
+
