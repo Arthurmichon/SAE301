@@ -16,7 +16,7 @@
                 <!-- État actuel -->
                 <div class="etat">
                     État :
-                    <span id="etat-led">
+                    <span id="etat-led-{{ forloop.counter }}">
                         {% if prise.etat %}
                             <span class="etat-on">Allumée</span>
                         {% else %}
@@ -112,17 +112,21 @@ setInterval(updateTemperature, 3000);
 
     <script>
     setInterval(() => {
-        fetch('/etat/')
-            .then(response => response.json())
-            .then(data => {
-                const etatElement = document.getElementById('etat-led');
-                if (etatElement) {
-                    etatElement.innerHTML = data.etat
+    fetch('/etat-leds-api/')
+        .then(response => response.json())
+        .then(data => {
+            for (const [key, value] of Object.entries(data)) {
+                const elem = document.getElementById('etat-' + key);
+                if (elem) {
+                    elem.innerHTML = value
                         ? '<span class="etat-on">Allumée</span>'
                         : '<span class="etat-off">Éteinte</span>';
                 }
-            });
-    }, 2000);
+            }
+        });
+}, 2000);
+
     </script>
 </body>
 </html>
+
