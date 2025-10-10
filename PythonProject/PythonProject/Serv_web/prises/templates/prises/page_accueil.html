@@ -111,22 +111,28 @@ setInterval(updateTemperature, 3000);
 
 
     <script>
-    setInterval(() => {
-    fetch('/etat-leds-api/')
-        .then(response => response.json())
+    function updateLedStates() {
+    fetch('/etat/')
+        .then(res => res.json())
         .then(data => {
-            for (const [key, value] of Object.entries(data)) {
-                const elem = document.getElementById('etat-' + key);
-                if (elem) {
-                    elem.innerHTML = value
+            data.forEach(prise => {
+                const etatElem = document.getElementById('etat-led-' + prise.id);
+                if (etatElem) {
+                    etatElem.innerHTML = prise.etat
                         ? '<span class="etat-on">Allumée</span>'
                         : '<span class="etat-off">Éteinte</span>';
                 }
-            }
+            });
         });
-}, 2000);
+}
+
+// mise à jour toutes les 2 secondes
+setInterval(updateLedStates, 2000);
+updateLedStates();
+
 
     </script>
 </body>
 </html>
+
 
