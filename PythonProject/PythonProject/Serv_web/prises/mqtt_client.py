@@ -4,8 +4,10 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-BROKER = "broker.mqtt-dashboard.com"
+BROKER = "127.0.0.1"
 PORT = 1883
+USERNAME = "akaza"
+PASSWORD = "akaza"
 TOPIC_LED1 = "esp1/led/control"
 TOPIC_LED2 = "esp2/led/control"
 TOPIC_ALL = "all/led/control"
@@ -13,6 +15,7 @@ TOPIC_ALL = "all/led/control"
 TOPIC_TEMPERATURE = "esp1/temperature"
 
 client = mqtt.Client(client_id="ESP8266-clta1-PythonClient")
+client.username_pw_set(USERNAME,PASSWORD)
 
 
 
