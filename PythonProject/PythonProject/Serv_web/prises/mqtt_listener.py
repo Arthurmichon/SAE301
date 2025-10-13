@@ -26,7 +26,7 @@ def on_message(client, userdata, msg):
         prise = Prise.objects.filter(id=1).first()
         led=1
     elif msg.topic == TOPIC_LED2_STATE:
-        prise = Prise.objects.filter(id=3).first()
+        prise = Prise.objects.filter(id=2).first()
         led=2
 
     if prise:
@@ -53,3 +53,4 @@ if __name__ == "__main__":
     django.setup()
 
     start_listener()
+
