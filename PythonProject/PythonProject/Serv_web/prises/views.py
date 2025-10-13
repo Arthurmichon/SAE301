@@ -65,13 +65,14 @@ def page_accueil(request):
     prises = Prise.objects.all()
     all_on = all(prise.etat for prise in prises) if prises else False
     from .models import Temperature
-    temp = Temperature.objects.first()
-    temperature = temp.value if temp else "--"
+    temp = Temperature.objects.order_by('-date_heure').first()
+    temperature = temp.valeur if temp else "--"
     return render(request, 'prises/page_accueil.html', {
         'prises': prises,
         'all_on': all_on,
         'temperature': temperature,
     })
+
 
 def logout_view(request):
     request.session.flush()
@@ -155,5 +156,6 @@ def temperature_api(request):
     temp_obj = Temperature.objects.first()
     temperature = temp_obj.value if temp_obj else "--"
     return JsonResponse({'temperature': temperature})
+
 
 
