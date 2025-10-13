@@ -82,7 +82,7 @@ WSGI_APPLICATION = 'Serv_web.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'SAE3',
+        'NAME': 'SAE301',
         'USER': 'akaza',
         'PASSWORD': 'akaza',
         'HOST': 'localhost',
@@ -128,5 +128,6 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/dev/howto/static-files/
+
 
 
