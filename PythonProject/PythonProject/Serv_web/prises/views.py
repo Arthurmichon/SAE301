@@ -8,7 +8,6 @@ from .models import Temperature
 from .mqtt_client import envoyer_commande_toutes_les_leds
 from django.http import JsonResponse
 
-
 def login_view(request):
     if request.method == "POST":
         username = request.POST.get("username")
@@ -88,6 +87,7 @@ def etat_prise_api(request):
 
 
 
+
 def set_horaire(request, prise_id):
     prise = get_object_or_404(Prise, id=prise_id)
 
@@ -115,6 +115,7 @@ def set_horaire(request, prise_id):
         messages.success(request, f"Plage horaire enregistrée : de {heure_on} à {heure_off}.")
 
     return redirect('page_accueil')
+
 
 
 
@@ -156,6 +157,7 @@ def temperature_api(request):
     temp_obj = Temperature.objects.first()
     temperature = temp_obj.value if temp_obj else "--"
     return JsonResponse({'temperature': temperature})
+
 
 
 
