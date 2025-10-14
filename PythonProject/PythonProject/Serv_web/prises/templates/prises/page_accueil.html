@@ -61,15 +61,9 @@
 
     <!-- Bouton global LEDs -->
     <div style="text-align:center; margin:20px;">
-        {% if prises %}
-            <a href="{% url 'toggle_all_leds' %}">
-                {% if all_on %}
-                    <button class="btn btn-on">💡 Éteindre toutes les LEDs</button>
-                {% else %}
-                    <button class="btn btn-off">💡 Allumer toutes les LEDs</button>
-                {% endif %}
-            </a>
-        {% endif %}
+    	{% if prises %}
+        <button id="btn-toggle-all" class="btn btn-off">Charger...</button>
+    	{% endif %}
     </div>
 
     <!-- Panneau température -->
@@ -115,9 +109,31 @@
 
         updateLedStates();
         setInterval(updateLedStates, 1000);
-    </script>
-</body>
-</html>
 
+	function updateAllButton() {
+	    fetch('/etat/')
+		.then(res => res.json())
+		.then(data => {
+		    const btn = document.getElementById('btn-toggle-all');
+		    if (!btn) return;
+
+		    const allOn = data.every(prise => prise.etat === true);
+
+		    btn.textContent = allOn ? "Éteindre toutes les LEDs" : "Allumer toutes les LEDs";
+		    btn.className = allOn ? "btn btn-on" : "btn btn-off";
+
+		    btn.onclick = () => {
+		        fetch("{% url 'toggle_all_leds' %}")
+		            .then(() => updateAllButton()) // refresh après le toggle
+		            .catch(err => console.error(err));
+		    };
+		})
+		.catch(err => console.error("Erreur updateAllButton :", err));
+	}
+
+	updateAllButton();
+	setInterval(updateAllButton, 1000);
+
+    </script>
 </body>
 </html>
