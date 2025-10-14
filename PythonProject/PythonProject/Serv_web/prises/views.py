@@ -82,7 +82,7 @@ def logout_view(request):
 def etat_prise_api(request):
     prises = Prise.objects.all()
     data = [{'id': p.id, 'etat': p.etat} for p in prises]
-    return JsonResponse(data)
+    return JsonResponse(data, safe=False)
 
 
 
@@ -157,6 +157,7 @@ def temperature_api(request):
     temp_obj = Temperature.objects.first()
     temperature = temp_obj.value if temp_obj else "--"
     return JsonResponse({'temperature': temperature})
+
 
 
 
