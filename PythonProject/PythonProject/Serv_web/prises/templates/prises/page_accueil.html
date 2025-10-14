@@ -84,19 +84,19 @@
 
     <!-- Scripts -->
     <script>
-        // Mise à jour de la température toutes les 3 secondes
         function updateTemperature() {
             fetch('/temperature-api/')
                 .then(res => res.json())
                 .then(data => {
                     const tempElem = document.getElementById('temperature');
                     if (tempElem) tempElem.textContent = data.temperature;
-                });
+                })
+                .catch(err => console.error("Erreur température :", err));
         }
+
         setInterval(updateTemperature, 3000);
         updateTemperature();
 
-        // Mise à jour des états des LEDs toutes les secondes
         function updateLedStates() {
             fetch('/etat/')
                 .then(res => res.json())
@@ -109,15 +109,15 @@
                                 : '<span class="etat-off">Éteinte</span>';
                         }
                     });
-                });
+                })
+                .catch(err => console.error("Erreur LEDs :", err));
         }
+
+        updateLedStates();
+        setInterval(updateLedStates, 1000);
     </script>
-    // Appel initial
-updateLedStates();
-
-// Rafraîchissement toutes les 1 seconde
-setInterval(updateLedStates, 1000);
-
 </body>
 </html>
 
+</body>
+</html>
